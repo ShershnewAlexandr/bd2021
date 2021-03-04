@@ -1,0 +1,43 @@
+.about {
+  &-img {
+    width: 175px;
+    height: 175px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+}
+
+.mb-30 {
+  margin-bottom: 30px;
+}
+
+.mb-15 {
+  margin-bottom: 15px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mb-5 {
+  margin-bottom: 5px;
+}
+
+.contact-type {
+  width: 100px;
+  display: inline-block;
+}
+
+td {
+  padding: 5px;
+}
+
+td.years {
+  width: 100px;
+  padding: 10px;
+}
+
+h2 {
+  padding-bottom: 0.5em;
+  border-bottom: 2px solid #f2f3f3;
+}

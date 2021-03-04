@@ -1,0 +1,5 @@
+export default {
+    LOGIN_REQUEST: '@@login/LOGIN_REQUEST',
+    REGISTER_REQUEST: '@@login/REGISTER_REQUEST',
+    LOGOUT_REQUEST: '@@login/LOGOUT_REQUEST',
+};

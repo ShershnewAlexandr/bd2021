@@ -1,0 +1,5 @@
+export default {
+    GET_USER_REQUEST: '@@user/LOGIN_REQUEST',
+    GET_USER_SUCCESS: '@@user/GET_USER_SUCCESS',
+    UPDATE_USER_REQUEST: '@@user/REGISTER_REQUEST',
+};
