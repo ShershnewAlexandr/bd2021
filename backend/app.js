@@ -2,10 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const passport = require('passport');
-const authRoutes = require('./routes/auth');
-const userRoutes = require('./routes/user');
-const infoRoutes = require('./routes/info');
 const keys = require('./config/keys');
+const routes = require('./routes');
 const app = express();
 
 mongoose.connect(keys.mongoURL, { useUnifiedTopology: true })
@@ -21,8 +19,5 @@ app.use(require('morgan')('dev'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use('/api/auth', authRoutes);
-app.use('/api/user', userRoutes);
-app.use('/api/info', infoRoutes);
-
+app.use('/api', routes);
 module.exports = app;

@@ -1,10 +1,8 @@
 const bcrypt = require('bcryptjs');
 const User = require('../models/User');
-const Info = require('../models/Info');
 const jwt = require('jsonwebtoken');
 const keys = require('../config/keys');
 const errorHandler = require('../utils/errorHandler');
-const contentShadow = require('../config/ContentShadow');
 
 module.exports.login = async (req, res) => {
     const candidate = await User.findOne({
@@ -49,16 +47,12 @@ module.exports.register = async (req, res) => {
         const password = req.body.password;
         const user = new User({
             email: req.body.email,
+            role: 'user',
             password: bcrypt.hashSync(password, salt),
         });
 
         try {
-            const newUser = await user.save();
-            console.log(newUser);
-            await new Info({
-                userId: newUser._id,
-                content: contentShadow,
-            }).save();
+            await user.save();
             res.status(201).json(user);
         } catch (e) {
             errorHandler(res, e);
