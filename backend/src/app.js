@@ -6,7 +6,7 @@ const keys = require('./config/keys');
 const routes = require('./routes');
 const app = express();
 
-mongoose.connect(keys.mongoURL, { useUnifiedTopology: true })
+mongoose.connect(keys.mongoURL, { useUnifiedTopology: true, useNewUrlParser: true })
     .then(() => {
         console.log('mongodb connected');
     })
@@ -20,4 +20,5 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use('/api', routes);
+
 module.exports = app;

@@ -1,14 +1,13 @@
 const errorHandler = require('../utils/errorHandler');
-const Info = require('../models/Info');
+const Author = require('../models/Author');
 
 module.exports.get = async (req, res) => {
-    console.log(req.params.userId);
-    console.log(req.body.userId);
+    console.log(req.user);
     try {
-        const info = await Info.findOne({
-            userId: req.body.userId,
+        const author = await Author.findOne({
+            userId: req.user.id,
         });
-        res.status(200).json(info);
+        res.status(200).json(author);
     } catch (e) {
         errorHandler(res, e);
     }
@@ -16,7 +15,7 @@ module.exports.get = async (req, res) => {
 
 module.exports.update = async (req, res) => {
     try {
-       const info = await Info.findOneAndUpdate(
+        const info = await Author.findOneAndUpdate(
             { userId: req.user.id},
             { $set: req.body},
             { new: true }
