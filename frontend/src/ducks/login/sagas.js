@@ -10,8 +10,13 @@ function* loginSaga(action) {
     try {
         yield delay(1000);
         const response = yield call(req);
+        localStorage.setItem('auth', JSON.stringify(response.data));
         apiSetToken(response.data.token);
-        yield put(push(createRoute.EDIT(response.data.userId)))
+        if (response.data.role === 'admin') {
+            yield put(push(createRoute.ADMIN(response.data.userId)))
+        } else {
+            yield put(push(createRoute.USER(response.data.userId)))
+        }
     } catch (e) {
         actions.setErrors({
             common: "Неверный логин или пароль"
@@ -36,13 +41,28 @@ function* registerSaga(action) {
 }
 
 function* logoutSaga(){
-    localStorage.setItem("token", "");
+    localStorage.setItem("auth", "");
     yield put(push(routes.SIGNIN));
+}
+
+function* autoLogin(){
+    const auth = localStorage.getItem('auth');
+    if (!auth) {
+        yield put(push(routes.SIGNIN));
+    } else {
+        const authData = JSON.parse(auth);
+        apiSetToken(authData.token);
+        if (authData.role === 'admin') {
+            yield put(push(createRoute.ADMIN(authData.userId)))
+        } else {
+            yield put(push(createRoute.USER(authData.userId)))
+        }
+    }
 }
 
 export default function*() {
     yield all([
-        // call(autoLogin),
+        call(autoLogin),
         takeLatest(types.LOGIN_REQUEST, loginSaga),
         takeLatest(types.REGISTER_REQUEST, registerSaga),
         takeLatest(types.LOGOUT_REQUEST, logoutSaga)

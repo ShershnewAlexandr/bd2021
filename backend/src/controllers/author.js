@@ -2,6 +2,7 @@ const errorHandler = require('../utils/errorHandler');
 const Author = require('../models/Author');
 
 module.exports.get = async (req, res) => {
+    console.log("+++");
     console.log(req.user);
     try {
         const author = await Author.findOne({

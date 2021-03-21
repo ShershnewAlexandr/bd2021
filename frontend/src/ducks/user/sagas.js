@@ -1,17 +1,14 @@
 import { call, all, takeLatest, put, delay } from 'redux-saga/effects';
 import types from './types';
-import { push } from 'connected-react-router';
 import userActions from './actions';
-import {createRoute, routes} from "../../utils/constants";
 import { api } from "../../utils/api";
 
 function* getUserSaga(action) {
-    const req = () => api.post('info/get', {
-        userId: action.userId
-    });
+    const req = () => api.get('author/get');
     console.log(action.userId);
     try {
         const response = yield call(req);
+        yield delay(1000);
         yield put(userActions.getUserSuccess(response.data));
     } catch (e) {
         alert("error get user data");
@@ -21,11 +18,11 @@ function* getUserSaga(action) {
 
 function* updateUserSaga(action) {
     const { values, actions, res } = action;
-    const req = () => api.post('info/update', values);
+    const req = () => api.put('author/update', values);
     try {
         yield delay(1000);
         const response = yield call(req);
-        alert("Данные обнавлены");
+        yield put(userActions.getUserSuccess(response.data));
     } catch (e) {
         alert("Ошибка обновления");
         console.log('error', e);

@@ -1,11 +1,12 @@
 const errorHandler = require('../utils/errorHandler');
-const Ingredient = require('../models/Ingredient');
+const RecipeIngredients = require('../models/RecipeIngredients');
 
 module.exports.get = async (req, res) => {
     try {
-        const ingredients = await Ingredient.find({});
-        console.log('000')
-        res.status(200).json(ingredients);
+        const recipeIngredients = await RecipeIngredients.find({
+            recipeId: req.body.id,
+        });
+        res.status(200).json(recipeIngredients);
     } catch (e) {
         errorHandler(res, e);
     }
@@ -13,11 +14,11 @@ module.exports.get = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     try {
-        const ingredient = new Ingredient(req.body);
-        console.log(ingredient);
-        console.log(req.body);
-        await ingredient.save();
-        res.status(200).json(ingredient);
+        const recipe = new RecipeIngredients({
+            $set: req.body,
+        });
+        await recipe.save();
+        res.status(200).json(recipe);
     } catch (e) {
         errorHandler(res, e);
     }
@@ -25,12 +26,12 @@ module.exports.create = async (req, res) => {
 
 module.exports.update = async (req, res) => {
     try {
-        const ingredient = await Ingredient.findOneAndUpdate(
+        const recipe = await RecipeIngredients.findOneAndUpdate(
             { _id: req.body.id},
             { $set: req.body},
             { new: true }
         );
-        res.status(200).json(ingredient);
+        res.status(200).json(recipe);
     } catch (e) {
         errorHandler(res, e);
     }
@@ -38,10 +39,10 @@ module.exports.update = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
     try {
-        const ingredient = await Ingredient.findOneAndDelete({
+        const recipe = await RecipeIngredients.findOneAndDelete({
             _id: req.body.id
         });
-        res.status(200).json(ingredient);
+        res.status(200).json(recipe);
     } catch (e) {
         errorHandler(res, e);
     }

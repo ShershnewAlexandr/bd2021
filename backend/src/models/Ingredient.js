@@ -3,7 +3,7 @@ const { Schema }= mongoose;
 
 const schema = new Schema({
     name: String,
-    expiresAt: Date,
+    expiresAt: String,
     average_cost: Number,
     type: Number,
     withGluten: Boolean,

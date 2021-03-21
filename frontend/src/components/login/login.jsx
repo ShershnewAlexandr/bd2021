@@ -29,7 +29,7 @@ function Login(props) {
             { formik.errors.common && (
                 <Text type="danger">{formik.errors.common}</Text>
             )}
-            <Row gutter={[0, 20]} justify="end">
+            <Row className='mb-20' justify="end">
                 <Col span={24}>
                     <Input name={"email"} size="large" placeholder="email"
                            onChange={formik.handleChange}
@@ -37,7 +37,7 @@ function Login(props) {
                     />
                 </Col>
             </Row>
-            <Row gutter={[0, 20]} justify="end">
+            <Row className='mb-20' justify="end">
                 <Col span={24}>
                     <Input.Password name={"password"} size="large" placeholder="password"
                         onChange={formik.handleChange}
@@ -45,13 +45,13 @@ function Login(props) {
                     />
                 </Col>
             </Row>
-            <Row gutter={[0, 20]} justify="end">
+            <Row className='mb-20' justify="end">
                 <Col>
                     <Space size="middle">
                         <Link to={routes.SIGNUP}>
-                            <Button type="primary" size="large">Sign up</Button>
+                            <Button size="large">Sign up</Button>
                         </Link>
-                        <Button type="submit"
+                        <Button type="primary"
                                 onClick={formik.handleSubmit}
                                 size="large"
                                 loading={formik.isSubmitting}
