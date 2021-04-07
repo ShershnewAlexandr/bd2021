@@ -14,8 +14,6 @@ module.exports.get = async (req, res) => {
 module.exports.create = async (req, res) => {
     try {
         const ingredient = new Ingredient(req.body);
-        console.log(ingredient);
-        console.log(req.body);
         await ingredient.save();
         res.status(200).json(ingredient);
     } catch (e) {
@@ -25,10 +23,15 @@ module.exports.create = async (req, res) => {
 
 module.exports.update = async (req, res) => {
     try {
-        const ingredient = await Ingredient.findOneAndUpdate(
-            { _id: req.body.id},
-            { $set: req.body},
-            { new: true }
+        const ingredient = await Ingredient.findByIdAndUpdate(
+            req.body._id,
+            {
+                name: req.body.name,
+                expiresAt: req.body.expiresAt,
+                average_cost: req.body.average_cost,
+                type: req.body.type,
+                withGluten: req.body.withGluten,
+            }
         );
         res.status(200).json(ingredient);
     } catch (e) {
@@ -38,9 +41,7 @@ module.exports.update = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
     try {
-        const ingredient = await Ingredient.findOneAndDelete({
-            _id: req.body.id
-        });
+        const ingredient = await Ingredient.findByIdAndDelete(req.body._id);
         res.status(200).json(ingredient);
     } catch (e) {
         errorHandler(res, e);

@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema }= mongoose;
 
 const schema = new Schema({
-    date: Date,
+    date: String,
     grandSum: Number,
     voterCount: Number,
     country: String,

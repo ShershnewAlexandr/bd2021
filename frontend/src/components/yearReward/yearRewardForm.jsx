@@ -1,28 +1,27 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useFormik} from "formik";
-import {Input, InputNumber, Radio, Button, Space, Row, Col, Typography, Spin, Select } from "antd";
-import { IngredientsTypes } from "./IngredientsTypes";
-import "./Ingredients.scss";
+import {Input, InputNumber, Radio, Button, Space, Row, Col, Typography, Spin, Select} from "antd";
+import "./yearReward.scss";
 
 const {Text, Title} = Typography;
-const { Option } = Select;
+const {Option} = Select;
 
-function IngredientsForm({
-  ingredient,
-  buttonName = 'Add',
-  onSubmitAction,
-  onDeleteAction,
+function YearRewardForm({
+ yearReward,
+ buttonName = 'Add',
+ onSubmitAction,
+ onDeleteAction,
 }) {
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
-      name: "",
-      expiresAt: "",
-      average_cost: 0,
-      type: 0,
-      withGluten: false,
-      ...ingredient ?? {}
+      date: "",
+      grandSum: 0,
+      voterCount: 0,
+      country: "",
+      description: "",
+      ...yearReward ?? {}
     },
     onSubmit: async (values, actions) => {
       await new Promise((res) => {
@@ -47,55 +46,58 @@ function IngredientsForm({
         <div>
           <Row className="mb-20" justify="end">
             <Col span={24}>
-              <Text>Название</Text>
-              <Input name={"name"} size="large"
-                     onChange={formik.handleChange}
-                     value={formik.values.name}
-              />
-            </Col>
-          </Row>
-          <Row className="mb-20" justify="end">
-            <Col span={24}>
-              <Text>Годен до</Text>
+              <Text>Дата</Text>
               <input
                 style={{marginLeft: "20px"}}
                 type="date" onChange={(value) => {
-                  formik.setFieldValue('expiresAt', value.target.value);
-                }}
-                value={formik.values.expiresAt}
+                formik.setFieldValue('date', value.target.value);
+              }}
+                value={formik.values.date}
               />
             </Col>
           </Row>
           <Row className="mb-20" justify="end">
             <Col span={24}>
-              <Text>Стоимость</Text><br/>
+              <Text>Сумма гранта</Text><br/>
               <InputNumber
                 min={0}
-                name={"averag_cost"}
-                value={formik.values.average_cost}
+                name={"grandSum"}
+                value={formik.values.grandSum}
                 onChange={value => {
-                  formik.setFieldValue("average_cost", value);
+                  formik.setFieldValue("grandSum", value);
                 }}
               />
             </Col>
           </Row>
           <Row className="mb-20" justify="end">
             <Col span={24}>
-              <Text>Тип продукта</Text><br/>
-              <Select defaultValue="0" value={String(formik.values.type)} style={{ width: 120 }} onChange={value => formik.setFieldValue('type', Number(value))}>
-                {IngredientsTypes.map((type, idx) => (
-                  <Option key={idx} value={String(idx)}>{type}</Option>
-                ))}
-              </Select>
+              <Text>Кол-во проголосовавших</Text><br/>
+              <InputNumber
+                min={0}
+                name={"voterCount"}
+                value={formik.values.voterCount}
+                onChange={value => {
+                  formik.setFieldValue("voterCount", value);
+                }}
+              />
             </Col>
           </Row>
           <Row className="mb-20" justify="end">
             <Col span={24}>
-              <Text>С глютеном?</Text><br/>
-              <Radio.Group onChange={e => formik.setFieldValue('withGluten', e.target.value)} value={formik.values.withGluten}>
-                <Radio value={true}>Да</Radio>
-                <Radio value={false}>Нет</Radio>
-              </Radio.Group>
+              <Text>Страна</Text>
+              <Input name={"country"} size="large"
+                     onChange={formik.handleChange}
+                     value={formik.values.country}
+              />
+            </Col>
+          </Row>
+          <Row className="mb-20" justify="end">
+            <Col span={24}>
+              <Text>JSON описание</Text>
+              <Input name={"description"} size="large"
+                     onChange={formik.handleChange}
+                     value={formik.values.description}
+              />
             </Col>
           </Row>
           <Row justify="end">
@@ -131,4 +133,4 @@ function IngredientsForm({
   );
 }
 
-export { IngredientsForm };
+export {YearRewardForm};

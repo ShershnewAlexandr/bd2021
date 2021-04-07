@@ -12,9 +12,7 @@ module.exports.get = async (req, res) => {
 
 module.exports.create = async (req, res) => {
     try {
-        const yearReward = new YearReward({
-            $set: req.body,
-        });
+        const yearReward = new YearReward(req.body);
         await yearReward.save();
         res.status(200).json(yearReward);
     } catch (e) {
@@ -24,10 +22,15 @@ module.exports.create = async (req, res) => {
 
 module.exports.update = async (req, res) => {
     try {
-        const yearReward = await YearReward.findOneAndUpdate(
-            { _id: req.body.id},
-            { $set: req.body},
-            { new: true }
+        const yearReward = await YearReward.findByIdAndUpdate(
+          req.body._id,
+          {
+              date: req.body.date,
+              grandSum: req.body.grandSum,
+              voterCount: req.body.voterCount,
+              country: req.body.country,
+              description: req.body.description,
+          }
         );
         res.status(200).json(yearReward);
     } catch (e) {
@@ -37,9 +40,7 @@ module.exports.update = async (req, res) => {
 
 module.exports.delete = async (req, res) => {
     try {
-        const yearReward = await YearReward.findOneAndDelete({
-            _id: req.body.id
-        });
+        const yearReward = await YearReward.findByIdAndDelete(req.body._id);
         res.status(200).json(yearReward);
     } catch (e) {
         errorHandler(res, e);

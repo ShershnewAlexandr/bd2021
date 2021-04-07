@@ -7,9 +7,10 @@ export default {
     };
   },
 
-  getIngredientsSuccess() {
+  getIngredientsSuccess(payload) {
     return {
       type: types.GET_INGREDIENTS_SUCCESS,
+      payload,
     };
   },
 
@@ -27,10 +28,10 @@ export default {
     };
   },
 
-  deleteIngredientsRequest(ingredientId) {
+  deleteIngredientsRequest(values, actions, res) {
     return {
-      type: types.GET_USER_SUCCESS,
-      ingredientId
+      type: types.DELETE_INGREDIENTS_REQUEST,
+      values, actions, res
     };
   },
 }

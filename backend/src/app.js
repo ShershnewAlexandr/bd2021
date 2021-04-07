@@ -6,6 +6,7 @@ const keys = require('./config/keys');
 const routes = require('./routes');
 const app = express();
 
+mongoose.set('useFindAndModify', false);
 mongoose.connect(keys.mongoURL, { useUnifiedTopology: true, useNewUrlParser: true })
     .then(() => {
         console.log('mongodb connected');

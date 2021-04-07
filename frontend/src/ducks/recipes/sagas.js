@@ -3,36 +3,36 @@ import types from './types';
 import userActions from './actions';
 import { api } from "../../utils/api";
 
-function* getIngredientsSaga(action) {
-  const req = () => api.get('ingredient/get');
+function* getRecipesSaga(action) {
+  const req = () => api.get('recipe/get');
   try {
     const response = yield call(req);
     yield delay(1000);
-    yield put(userActions.getIngredientsSuccess(response.data));
+    yield put(userActions.getRecipesSuccess(response.data));
   } catch (e) {
     console.log('error', e);
   }
 }
 
-function* addIngredientsSaga(action) {
+function* addRecipesSaga(action) {
   const { values, actions, res } = action;
-  const req = () => api.post('ingredient/create', values);
+  const req = () => api.post('recipe/create', values);
   try {
     const response = yield call(req);
-    yield call(getIngredientsSaga);
+    yield call(getRecipesSaga);
   } catch (e) {
     console.log('error', e);
   }
   res();
 }
 
-function* updateIngredientsSaga(action) {
+function* updateRecipesSaga(action) {
   const { values, actions, res } = action;
-  const req = () => api.put('ingredient/update', values);
+  const req = () => api.put('recipe/update', values);
   try {
     yield delay(1000);
     const response = yield call(req);
-    yield call(getIngredientsSaga);
+    yield call(getRecipesSaga);
   } catch (e) {
     alert("Ошибка обновления");
     console.log('error', e);
@@ -40,13 +40,13 @@ function* updateIngredientsSaga(action) {
   res();
 }
 
-function* deleteIngredientsSaga(action) {
+function* deleteRecipesSaga(action) {
   const { values, actions, res } = action;
-  const req = () => api.post('ingredient/delete', values);
+  const req = () => api.post('recipe/delete', values);
   try {
     yield delay(1000);
     const response = yield call(req);
-    yield call(getIngredientsSaga);
+    yield call(getRecipesSaga);
   } catch (e) {
     alert("Ошибка обновления");
     console.log('error', e);
@@ -56,9 +56,9 @@ function* deleteIngredientsSaga(action) {
 
 export default function*() {
   yield all([
-    takeLatest(types.GET_INGREDIENTS_REQUEST, getIngredientsSaga),
-    takeLatest(types.ADD_INGREDIENTS_REQUEST, addIngredientsSaga),
-    takeLatest(types.UPDATE_INGREDIENTS_REQUEST, updateIngredientsSaga),
-    takeLatest(types.DELETE_INGREDIENTS_REQUEST, deleteIngredientsSaga),
+    takeLatest(types.GET_RECIPES_REQUEST, getRecipesSaga),
+    takeLatest(types.ADD_RECIPES_REQUEST, addRecipesSaga),
+    takeLatest(types.UPDATE_RECIPES_REQUEST, updateRecipesSaga),
+    takeLatest(types.DELETE_RECIPES_REQUEST, deleteRecipesSaga),
   ]);
 }
